@@ -1,10 +1,28 @@
 import React, { useState } from 'react';
+import Button from './components/Button'
 
+const calculate = (numberOne, operator, numberTwo) => {
+  if (operator === '+') {
+    return numberOne + numberTwo;
+  }
+  if (operator === '-') {
+    return numberOne - numberTwo;
+  }
+  if (operator === '÷') {
+    return numberOne / numberTwo;
+  }
+  if (operator === 'x') {
+    return numberOne * numberTwo;
+  }
+  return 0;
+}
 
 const App = () => {
   const [total, setTotal] = useState(0);
   const [display, setDisplay] = useState(0);
   const [operator, setOperator] = useState('+');
+  // const [previousButtonPress, setPreviousButtonPress] = useState('+');
+  const [operand, setOperand] = useState(0);
 
   const gridStyle = {
     display: 'flex',
@@ -22,69 +40,61 @@ const App = () => {
     margin: '5px'
   }
 
-  const handleNumber = (number) => {
-    //if (display === 0) {
-    // setDisplay(number);
-    //} else {
-    setDisplay((display * 10) + number)
 
-    //}
-    if (operator === '+') {
-      setTotal(number + total)
-    }
-    if (operator === '-') {
-      setTotal(number - total)
-    }
-    if (operator === '÷') {
-      setTotal(number / total)
-    }
-    if (operator === 'x') {
-      setTotal(number * total)
-    }
-    // when hit number, set total to number operator total
 
+  const handleNumber = number => {
+    const newOperand = (operand * 10) + number
+    setOperand(newOperand);
+    setDisplay(newOperand);
   }
 
   const handleOperator = (symbol) => {
-    // setTotal(display);
-    setDisplay(total)
+    let newTotal = 0;
+    if (symbol === '=') {
+      newTotal = calculate(total, operator, operand);
+    } else {
+      newTotal = calculate(total, symbol, operand)
+    }
 
-    // if (symbol === '=') {
-    //  
-    // }
-    // setOperator(symbol);
+    setTotal(newTotal);
+    setOperator(symbol)
+    setDisplay(newTotal);
+    setOperand(0);
+    // setPreviousButtonPress(symbol);
   }
 
   return (
     <div style={{ width: '500px' }}>
       <pre>
-        display: {display}, operator: {operator}, total: {total}
+        display: {display}, operator: {operator}, operand: {operand}, total: {total}
       </pre>
       <input disabled value={display} style={{ width: '100%' }}></input>
       <div style={gridStyle}>
         <div style={rowStyle}>
-          <button style={gridCellStyle} onClick={() => { handleNumber(7) }}>7</button>
-          <button style={gridCellStyle} onClick={() => { handleNumber(8) }}>8</button>
-          <button style={gridCellStyle} onClick={() => { handleNumber(9) }}>9</button>
-          <button style={gridCellStyle} onClick={() => { handleOperator('÷') }}>÷</button>
+          <Button onClick={() => { handleNumber(7) }}>7</Button>
+          <Button onClick={() => { handleNumber(8) }}>8</Button>
+          <Button onClick={() => { handleNumber(9) }}>9</Button>
+          <Button onClick={() => { handleOperator('÷') }}>÷</Button>
         </div>
         <div style={rowStyle}>
-          <button style={gridCellStyle} onClick={() => { handleNumber(4) }}>4</button>
-          <button style={gridCellStyle} onClick={() => { handleNumber(5) }}>5</button>
-          <button style={gridCellStyle} onClick={() => { handleNumber(6) }}>6</button>
-          <button style={gridCellStyle} onClick={() => { handleOperator('x') }}>x</button>
+          <Button onClick={() => { handleNumber(4) }}>4</Button>
+          <Button onClick={() => { handleNumber(5) }}>5</Button>
+          <Button onClick={() => { handleNumber(6) }}>6</Button>
+          <Button onClick={() => { handleOperator('x') }}>x</Button>
+
+
         </div>
         <div style={rowStyle}>
-          <button style={gridCellStyle} onClick={() => { handleNumber(1) }}>1</button>
-          <button style={gridCellStyle} onClick={() => { handleNumber(2) }}>2</button>
-          <button style={gridCellStyle} onClick={() => { handleNumber(3) }}>3</button>
-          <button style={gridCellStyle} onClick={() => { handleOperator('-') }}>-</button>
+          <Button onClick={() => { handleNumber(1) }}>1</Button>
+          <Button onClick={() => { handleNumber(2) }}>2</Button>
+          <Button onClick={() => { handleNumber(3) }}>3</Button>
+          <Button onClick={() => { handleOperator('-') }}>-</Button>
         </div>
         <div style={rowStyle}>
-          <button style={gridCellStyle} onClick={() => { handleNumber(0) }}>0</button>
-          <button style={gridCellStyle} onClick={() => { handleNumber('.') }}>.</button>
-          <button style={gridCellStyle} onClick={() => { handleOperator('=') }}>=</button>
-          <button style={gridCellStyle} onClick={() => { handleOperator('+') }}>+</button>
+          <Button onClick={() => { handleNumber(0) }}>0</Button>
+          <Button onClick={() => { handleNumber('.') }}>.</Button>
+          <Button onClick={() => { handleOperator('=') }}>=</Button>
+          <Button onClick={() => { handleOperator('+') }}>+</Button>
         </div>
       </div>
     </div>
