@@ -43,9 +43,14 @@ const App = () => {
 
 
   const handleNumber = number => {
-    const newOperand = (operand * 10) + number
+    const newOperand = (operand * 10) + number;
+
     setOperand(newOperand);
+    console.log('new op', newOperand)
     setDisplay(newOperand);
+    // why is display not setting?
+    console.log('new operand, total, display', newOperand, total, display)
+
   }
 
   const handleOperator = (symbol) => {
@@ -53,7 +58,8 @@ const App = () => {
     if (symbol === '=') {
       newTotal = calculate(total, operator, operand);
     } else {
-      newTotal = calculate(total, symbol, operand)
+      console.log('in else total symbol operand', total, symbol, operand)
+      newTotal = calculate(operand, symbol, total)
     }
 
     setTotal(newTotal);
