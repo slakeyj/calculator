@@ -8,16 +8,21 @@ const calculate = (numberOne, operator, numberTwo) => {
   if (operator === '-') {
     return numberOne - numberTwo;
   }
-  if (operator === '÷') {
-    return numberOne / numberTwo;
+
+  if (operator === '/') {
+    if (numberTwo === 0) {
+      return numberOne;
+    } else {
+      return numberOne / numberTwo;
+    }
   }
+
   if (operator === 'x') {
     if (numberTwo === 0) {
       return numberOne;
     } else {
       return numberOne * numberTwo;
     }
-
   }
   return 0;
 }
@@ -80,7 +85,7 @@ const App = () => {
           <Button onClick={() => { handleNumber(7) }}>7</Button>
           <Button onClick={() => { handleNumber(8) }}>8</Button>
           <Button onClick={() => { handleNumber(9) }}>9</Button>
-          <Button onClick={() => { handleOperator('÷') }}>÷</Button>
+          <Button onClick={() => { handleOperator('/') }}>÷</Button>
         </div>
         <div style={rowStyle}>
           <Button onClick={() => { handleNumber(4) }}>4</Button>
