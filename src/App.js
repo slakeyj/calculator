@@ -12,7 +12,12 @@ const calculate = (numberOne, operator, numberTwo) => {
     return numberOne / numberTwo;
   }
   if (operator === 'x') {
-    return numberOne * numberTwo;
+    if (numberTwo === 0) {
+      return numberOne;
+    } else {
+      return numberOne * numberTwo;
+    }
+
   }
   return 0;
 }
@@ -44,13 +49,8 @@ const App = () => {
 
   const handleNumber = number => {
     const newOperand = (operand * 10) + number;
-
     setOperand(newOperand);
-    console.log('new op', newOperand)
     setDisplay(newOperand);
-    // why is display not setting?
-    console.log('new operand, total, display', newOperand, total, display)
-
   }
 
   const handleOperator = (symbol) => {
