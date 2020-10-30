@@ -50,12 +50,25 @@ const App = () => {
     margin: '5px'
   }
 
-
-
   const handleNumber = number => {
-    const newOperand = (operand * 10) + number;
-    setOperand(newOperand);
-    setDisplay(newOperand);
+    const characters = operand.toString().split('');
+    if (characters.includes('.')) {
+      const newOperand = Number("" + operand + number);
+      setOperand(newOperand);
+      setDisplay(newOperand);
+
+    } else {
+      const newOperand = ((operand * 10) + number);
+      setOperand(newOperand);
+      setDisplay(newOperand);
+    }
+
+    if (number === '.') {
+      // removes the trailing 0
+      const newOperand = (operand * 1.0).toFixed(1).toString().split('').slice(0, -1).join('')
+      setDisplay(newOperand)
+      setOperand(newOperand)
+    }
   }
 
   const handleOperator = (symbol) => {
@@ -66,12 +79,11 @@ const App = () => {
       console.log('in else total symbol operand', total, symbol, operand)
       newTotal = calculate(operand, symbol, total)
     }
-
     setTotal(newTotal);
     setOperator(symbol)
     setDisplay(newTotal);
     setOperand(0);
-    // setPreviousButtonPress(symbol);
+
   }
 
   return (
