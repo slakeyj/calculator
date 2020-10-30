@@ -31,8 +31,9 @@ const App = () => {
   const [total, setTotal] = useState(0);
   const [display, setDisplay] = useState(0);
   const [operator, setOperator] = useState('+');
-  // const [previousButtonPress, setPreviousButtonPress] = useState('+');
+  const [previousButtonPress, setPreviousButtonPress] = useState('+');
   const [operand, setOperand] = useState(0);
+
 
   const gridStyle = {
     display: 'flex',
@@ -51,6 +52,7 @@ const App = () => {
   }
 
   const handleNumber = number => {
+    setPreviousButtonPress(operator)
     const characters = operand.toString().split('');
     if (characters.includes('.')) {
       const newOperand = Number("" + operand + number);
@@ -73,12 +75,19 @@ const App = () => {
 
   const handleOperator = (symbol) => {
     let newTotal = 0;
-    if (symbol === '=') {
-      newTotal = calculate(total, operator, operand);
+    if (previousButtonPress === '=') {
+      newTotal = calculate(total, symbol, operand)
+
     } else {
       console.log('in else total symbol operand', total, symbol, operand)
       newTotal = calculate(operand, symbol, total)
     }
+    if (symbol === '=') {
+      console.log('what is operator', operator)
+      newTotal = calculate(total, operator, operand);
+      setPreviousButtonPress(symbol)
+    }
+
     setTotal(newTotal);
     setOperator(symbol)
     setDisplay(newTotal);
@@ -89,7 +98,7 @@ const App = () => {
   return (
     <div style={{ width: '500px' }}>
       <pre>
-        display: {display}, operator: {operator}, operand: {operand}, total: {total}
+        display: {display}, operator: {operator}, operand: {operand}, total: {total} previous button: {previousButtonPress}
       </pre>
       <input disabled value={display} style={{ width: '100%' }}></input>
       <div style={gridStyle}>
