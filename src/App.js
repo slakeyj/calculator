@@ -1,5 +1,37 @@
 import React, { useState } from 'react';
-import Button from './components/Button'
+import Button from './components/Button';
+import styled from 'styled-components';
+
+
+const Grid = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Row = styled.div`
+  display: flex;
+`;
+
+const Input = styled.input`
+  width: 80%; 
+  margin-top: 50px; 
+  background-color: #DEDADA;
+  color: black;
+  border: gray;
+  font-size: 60px;
+  text-align: right;
+  font-family: arial;
+`;
+
+const Container = styled.div`
+  width: 500px;
+  height: 670px;
+  background-color: #DEDADA;
+  text-align: center;
+  font-family: 'Trispace', sans-serif;
+  margin: auto;
+  margin-top: 50px;
+`
 
 const calculate = (numberOne, operator, numberTwo) => {
   if (operator === '+') {
@@ -33,16 +65,6 @@ const App = () => {
   const [operator, setOperator] = useState('+');
   const [previousButtonPress, setPreviousButtonPress] = useState('+');
   const [operand, setOperand] = useState(0);
-
-
-  const gridStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-  }
-
-  const rowStyle = {
-    display: 'flex'
-  }
 
   const handleClear = () => {
     setOperand(0);
@@ -108,46 +130,43 @@ const App = () => {
   }
 
   return (
-    <div style={{ width: '500px' }}>
-      <pre>
-        display: {display}, operator: {operator}, operand: {operand}, total: {total} previous button: {previousButtonPress}
-      </pre>
-      <input disabled value={display} style={{ width: '100%' }}></input>
-      <div style={gridStyle}>
-        <div style={rowStyle}>
+    <Container>
+
+      <Input disabled value={display}></Input>
+      <Grid>
+        <Row>
 
           <Button onClick={() => { handleClear() }}>C</Button>
           <Button onClick={() => { handleNegative() }}>+/-</Button>
           <Button onClick={() => { handlePercent() }}>%</Button>
-        </div>
-        <div style={rowStyle}>
+          <Button onClick={() => { handleOperator('/') }}>÷</Button>
+        </Row>
+        <Row>
           <Button onClick={() => { handleNumber(7) }}>7</Button>
           <Button onClick={() => { handleNumber(8) }}>8</Button>
           <Button onClick={() => { handleNumber(9) }}>9</Button>
-          <Button onClick={() => { handleOperator('/') }}>÷</Button>
-        </div>
-        <div style={rowStyle}>
+          <Button onClick={() => { handleOperator('x') }}>x</Button>
+        </Row>
+        <Row>
           <Button onClick={() => { handleNumber(4) }}>4</Button>
           <Button onClick={() => { handleNumber(5) }}>5</Button>
           <Button onClick={() => { handleNumber(6) }}>6</Button>
-          <Button onClick={() => { handleOperator('x') }}>x</Button>
-
-
-        </div>
-        <div style={rowStyle}>
+          <Button onClick={() => { handleOperator('-') }}>-</Button>
+        </Row>
+        <Row>
           <Button onClick={() => { handleNumber(1) }}>1</Button>
           <Button onClick={() => { handleNumber(2) }}>2</Button>
           <Button onClick={() => { handleNumber(3) }}>3</Button>
-          <Button onClick={() => { handleOperator('-') }}>-</Button>
-        </div>
-        <div style={rowStyle}>
+          <Button onClick={() => { handleOperator('+') }}>+</Button>
+        </Row>
+        <Row>
           <Button onClick={() => { handleNumber(0) }}>0</Button>
           <Button onClick={() => { handleNumber('.') }}>.</Button>
           <Button onClick={() => { handleOperator('=') }}>=</Button>
-          <Button onClick={() => { handleOperator('+') }}>+</Button>
-        </div>
-      </div>
-    </div>
+
+        </Row>
+      </Grid>
+    </Container>
   )
 }
 
