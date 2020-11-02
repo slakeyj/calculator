@@ -44,11 +44,11 @@ const App = () => {
     display: 'flex'
   }
 
-  const gridCellStyle = {
-    flexGrow: '1',
-    height: '100px',
-    width: '50px',
-    margin: '5px'
+  const handleClear = () => {
+    setOperand(0);
+    setDisplay(0);
+    setTotal(0);
+    setOperator('+');
   }
 
   const handleNumber = number => {
@@ -64,26 +64,21 @@ const App = () => {
       setOperand(newOperand);
       setDisplay(newOperand);
     }
-
     if (number === '.') {
-      // removes the trailing 0
       const newOperand = (operand * 1.0).toFixed(1).toString().split('').slice(0, -1).join('')
       setDisplay(newOperand)
       setOperand(newOperand)
     }
   }
 
-  const handleOperator = (symbol) => {
+  const handleOperator = symbol => {
     let newTotal = 0;
     if (previousButtonPress === '=') {
       newTotal = calculate(total, symbol, operand)
-
     } else {
-      console.log('in else total symbol operand', total, symbol, operand)
       newTotal = calculate(operand, symbol, total)
     }
     if (symbol === '=') {
-      console.log('what is operator', operator)
       newTotal = calculate(total, operator, operand);
       setPreviousButtonPress(symbol)
     }
@@ -92,7 +87,24 @@ const App = () => {
     setOperator(symbol)
     setDisplay(newTotal);
     setOperand(0);
+  }
 
+  const handlePercent = () => {
+    const newOperand = operand / 100;
+    setOperand(newOperand);
+    setDisplay(newOperand)
+  }
+
+  const handleNegative = () => {
+    if (previousButtonPress === '=') {
+      const newTotal = total * -1;
+      setTotal(newTotal);
+      setDisplay(newTotal);
+    } else {
+      const newOperand = operand * -1;
+      setOperand(newOperand);
+      setDisplay(newOperand);
+    }
   }
 
   return (
@@ -102,6 +114,12 @@ const App = () => {
       </pre>
       <input disabled value={display} style={{ width: '100%' }}></input>
       <div style={gridStyle}>
+        <div style={rowStyle}>
+
+          <Button onClick={() => { handleClear() }}>C</Button>
+          <Button onClick={() => { handleNegative() }}>+/-</Button>
+          <Button onClick={() => { handlePercent() }}>%</Button>
+        </div>
         <div style={rowStyle}>
           <Button onClick={() => { handleNumber(7) }}>7</Button>
           <Button onClick={() => { handleNumber(8) }}>8</Button>
@@ -134,7 +152,3 @@ const App = () => {
 }
 
 export default App;
-
-
-// multiply, add, subtract, divide
-// text input, buttons for each operator, buttons for each number,
