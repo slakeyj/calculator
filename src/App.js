@@ -112,9 +112,16 @@ const App = () => {
   }
 
   const handlePercent = () => {
-    const newOperand = operand / 100;
-    setOperand(newOperand);
-    setDisplay(newOperand)
+    if (previousButtonPress === '=') {
+      const newTotal = total / 100;
+      setTotal(newTotal);
+      setDisplay(newTotal);
+    } else {
+      const newOperand = operand / 100;
+      setOperand(newOperand);
+      setDisplay(newOperand)
+    }
+
   }
 
   const handleNegative = () => {
